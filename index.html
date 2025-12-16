@@ -32,18 +32,7 @@
     </script>
     <style>
       :root {
-        /* Default Dark Theme */
-        --color-bg: #0f172a;
-        --color-card: #1e293b;
-        --color-card-hover: #2d3b4e;
-        --color-text: #e2e8f0;
-        --color-text-muted: #94a3b8;
-        --color-primary: #10b981; /* Emerald 500 */
-        --color-border: #334155;
-      }
-
-      /* Light / Bright Theme */
-      [data-theme="light"] {
+        /* Default Light Theme */
         --color-bg: #f8fafc;
         --color-card: #ffffff;
         --color-card-hover: #f1f5f9;
@@ -51,17 +40,32 @@
         --color-text-muted: #64748b;
         --color-primary: #059669; /* Emerald 600 */
         --color-border: #e2e8f0;
+        --color-secondary: #cbd5e1;
       }
 
-      /* Colorful Theme (Purple/Pink) */
+      /* Dark Theme */
+      [data-theme="dark"] {
+        --color-bg: #0f172a;
+        --color-card: #1e293b;
+        --color-card-hover: #2d3b4e;
+        --color-text: #e2e8f0;
+        --color-text-muted: #94a3b8;
+        --color-primary: #10b981; /* Emerald 500 */
+        --color-border: #334155;
+        --color-secondary: #475569;
+      }
+
+      /* Grainy Mint Theme */
       [data-theme="colorful"] {
-        --color-bg: #2e1065; /* Violet 950 */
-        --color-card: #4c1d95; /* Violet 900 */
-        --color-card-hover: #5b21b6; /* Violet 800 */
-        --color-text: #e9d5ff; /* Violet 200 */
-        --color-text-muted: #a78bfa; /* Violet 400 */
-        --color-primary: #f472b6; /* Pink 400 */
-        --color-border: #6d28d9;
+        --color-bg: #ecfdf5; /* Fallback Emerald 50 */
+        /* Glassmorphism cards */
+        --color-card: rgba(255, 255, 255, 0.65);
+        --color-card-hover: rgba(255, 255, 255, 0.85);
+        --color-text: #064e3b; /* Emerald 900 */
+        --color-text-muted: #335c55; /* Muted Green */
+        --color-primary: #047857; /* Emerald 700 - High contrast */
+        --color-border: #6ee7b7; /* Emerald 300 */
+        --color-secondary: #a7f3d0;
       }
 
       body {
@@ -69,6 +73,43 @@
         color: var(--color-text);
         line-height: 1.6;
         transition: background-color 0.3s ease, color 0.3s ease;
+        position: relative;
+        min-height: 100vh;
+      }
+
+      /* Specific styles for Grainy Mint Theme Body */
+      body[data-theme="colorful"] {
+        background-image: 
+          radial-gradient(at 0% 0%, hsla(152,100%,85%,1) 0, transparent 50%), 
+          radial-gradient(at 50% 0%, hsla(135,100%,88%,1) 0, transparent 50%), 
+          radial-gradient(at 100% 0%, hsla(165,100%,85%,1) 0, transparent 50%), 
+          radial-gradient(at 0% 50%, hsla(145,100%,85%,1) 0, transparent 50%), 
+          radial-gradient(at 100% 50%, hsla(160,100%,85%,1) 0, transparent 50%), 
+          radial-gradient(at 0% 100%, hsla(155,100%,88%,1) 0, transparent 50%), 
+          radial-gradient(at 100% 100%, hsla(140,100%,85%,1) 0, transparent 50%);
+        background-attachment: fixed;
+      }
+
+      /* Noise Overlay for Grainy effect */
+      body[data-theme="colorful"]::before {
+        content: "";
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: -1;
+        opacity: 0.5; /* Adjust noise intensity */
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='1'/%3E%3C/svg%3E");
+      }
+
+      /* Additional Backdrop Blur for cards in Mint theme */
+      [data-theme="colorful"] .bg-card {
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 255, 255, 0.4);
+        box-shadow: 0 4px 6px -1px rgba(6, 78, 59, 0.1), 0 2px 4px -1px rgba(6, 78, 59, 0.06);
       }
 
       .bg-card { background-color: var(--color-card); }
@@ -115,10 +156,17 @@
         opacity: 0.9;
       }
       
-      /* Specific override for pill background opacity hack with CSS vars */
-      [data-theme="light"] .pill {
+      /* Specific override for pill background opacity hack with CSS vars in light mode */
+      body:not([data-theme="dark"]):not([data-theme="colorful"]) .pill {
          background-color: #d1fae5;
          border-color: #a7f3d0;
+      }
+
+      /* Override for Mint theme pills to pop against glass background */
+      [data-theme="colorful"] .pill {
+         background-color: rgba(4, 120, 87, 0.1);
+         border-color: rgba(4, 120, 87, 0.2);
+         color: #047857;
       }
 
       /* Modal */
@@ -126,7 +174,7 @@
         background-color: rgba(15, 23, 42, 0.9);
         backdrop-filter: blur(8px);
       }
-      [data-theme="light"] .modal-backdrop {
+      body:not([data-theme="dark"]):not([data-theme="colorful"]) .modal-backdrop {
         background-color: rgba(248, 250, 252, 0.9);
       }
 
@@ -137,7 +185,7 @@
       ::-webkit-scrollbar-thumb:hover { background: var(--color-text-muted); }
     </style>
 </head>
-<body class="min-h-screen p-4 md:p-8 lg:p-12 max-w-6xl mx-auto selection:bg-primary selection:text-dark">
+<body class="min-h-screen md:p-8 lg:p-12 max-w-6xl mx-auto selection:bg-primary selection:text-white">
 
     <!-- Language Selection Modal (shown if no preference saved) -->
     <div id="lang-modal" class="fixed inset-0 z-[100] modal-backdrop flex items-center justify-center hidden">
@@ -157,8 +205,8 @@
         </div>
     </div>
 
-    <!-- Top Controls -->
-    <div class="absolute top-4 right-4 md:fixed md:top-8 md:right-8 flex flex-col items-end gap-3 z-40">
+    <!-- Controls Container: Relative flow on mobile, Fixed on Desktop -->
+    <div class="relative w-full flex justify-end gap-3 p-4 md:fixed md:top-8 md:right-8 md:p-0 md:w-auto md:flex-col md:items-end z-40 bg-transparent">
         <!-- Language Switcher -->
         <div class="flex bg-card border border-theme rounded-lg overflow-hidden text-xs font-mono shadow-lg">
             <button onclick="setLanguage('en')" class="px-3 py-1 hover:bg-card-hover hover:text-primary transition-colors border-r border-theme">EN</button>
@@ -169,14 +217,14 @@
         <div class="flex bg-card border border-theme rounded-lg overflow-hidden text-xs font-mono shadow-lg">
             <button onclick="setTheme('dark')" class="px-3 py-1 hover:bg-card-hover hover:text-primary transition-colors border-r border-theme" title="Dark Mode">🌑</button>
             <button onclick="setTheme('light')" class="px-3 py-1 hover:bg-card-hover hover:text-primary transition-colors border-r border-theme" title="Light Mode">☀️</button>
-            <button onclick="setTheme('colorful')" class="px-3 py-1 hover:bg-card-hover hover:text-primary transition-colors" title="Colorful">🎨</button>
+            <button onclick="setTheme('colorful')" class="px-3 py-1 hover:bg-card-hover hover:text-primary transition-colors" title="Grainy Mint">🍃</button>
         </div>
     </div>
 
     <!-- Top Border Accent -->
     <div class="fixed top-0 left-0 w-full h-1 bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-500 z-50"></div>
 
-    <header class="mb-16 mt-8 animate-fade-in">
+    <header class="mb-16 mt-4 md:mt-8 animate-fade-in px-4 md:px-0">
         <div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-6 border-l-4 border-primary pl-6">
             <div>
                 <h1 class="text-4xl md:text-6xl font-black tracking-tight mb-2" data-key="name">
@@ -211,15 +259,15 @@
         
         <!-- Languages Bar -->
         <div class="mt-6 flex flex-wrap gap-3 font-mono text-sm">
-            <span class="bg-card text-text px-3 py-1 rounded border border-theme">English <span class="text-primary" data-key="lang_fluent">Fluent</span></span>
-            <span class="bg-card text-text px-3 py-1 rounded border border-theme">Kazakh <span class="text-primary" data-key="lang_native">Native</span></span>
-            <span class="bg-card text-text px-3 py-1 rounded border border-theme">Turkish <span class="text-primary" data-key="lang_fluent">Fluent</span></span>
-            <span class="bg-card text-text px-3 py-1 rounded border border-theme">Mongolian <span class="text-primary" data-key="lang_fluent">Fluent</span></span>
-            <span class="bg-card text-text px-3 py-1 rounded border border-theme">Russian <span class="text-text-muted" data-key="lang_intermediate">Intermediate</span></span>
+            <span class="bg-card text-text px-3 py-1 rounded border border-theme"><span data-key="lang_en">English</span> <span class="text-primary" data-key="lang_fluent">Fluent</span></span>
+            <span class="bg-card text-text px-3 py-1 rounded border border-theme"><span data-key="lang_kz">Kazakh</span> <span class="text-primary" data-key="lang_native">Native</span></span>
+            <span class="bg-card text-text px-3 py-1 rounded border border-theme"><span data-key="lang_tr">Turkish</span> <span class="text-primary" data-key="lang_fluent">Fluent</span></span>
+            <span class="bg-card text-text px-3 py-1 rounded border border-theme"><span data-key="lang_mn">Mongolian</span> <span class="text-primary" data-key="lang_fluent">Fluent</span></span>
+            <span class="bg-card text-text px-3 py-1 rounded border border-theme"><span data-key="lang_ru">Russian</span> <span class="text-text-muted" data-key="lang_intermediate">Intermediate</span></span>
         </div>
     </header>
 
-    <main class="grid grid-cols-1 lg:grid-cols-12 gap-12">
+    <main class="grid grid-cols-1 lg:grid-cols-12 gap-12 px-4 md:px-0">
         
         <!-- Left Sidebar: Experience & Education -->
         <div class="lg:col-span-4 space-y-12">
@@ -427,6 +475,11 @@
                 name: "ALFARABI SYEIT",
                 role: "Technical Developer & Analyst",
                 loc_astana: "Astana, Kazakhstan",
+                lang_en: "English",
+                lang_kz: "Kazakh",
+                lang_tr: "Turkish",
+                lang_mn: "Mongolian",
+                lang_ru: "Russian",
                 lang_fluent: "Fluent",
                 lang_native: "Native",
                 lang_intermediate: "Intermediate",
@@ -491,6 +544,11 @@
                 name: "ӘЛЬ-ФАРАБИ СЕЙТ",
                 role: "Техникалық Әзірлеуші және Аналитик",
                 loc_astana: "Астана, Қазақстан",
+                lang_en: "Ағылшын",
+                lang_kz: "Қазақ",
+                lang_tr: "Түрік",
+                lang_mn: "Моңғол",
+                lang_ru: "Орыс",
                 lang_fluent: "Еркін",
                 lang_native: "Ана тілі",
                 lang_intermediate: "Орташа",
@@ -555,6 +613,11 @@
                 name: "АЛФАРАБИ СЕЙТ",
                 role: "Технический Разработчик и Аналитик",
                 loc_astana: "Астана, Казахстан",
+                lang_en: "Английский",
+                lang_kz: "Казахский",
+                lang_tr: "Турецкий",
+                lang_mn: "Монгольский",
+                lang_ru: "Русский",
                 lang_fluent: "Свободно",
                 lang_native: "Родной",
                 lang_intermediate: "Средний",
@@ -573,7 +636,7 @@
                 edu_uni: "Технический Университет Йылдыз",
                 qualities_title: "Качества",
                 quality1: "Адаптивный",
-                quality2: "Аналитичный",
+                quality2: "Аналитический",
                 quality3: "Надежный",
                 quality4: "Профессионал",
                 tech_title: "Технический Арсенал",
@@ -632,7 +695,11 @@
 
         function setTheme(theme) {
             localStorage.setItem('preferred_theme', theme);
-            document.body.setAttribute('data-theme', theme);
+            if (theme === 'light') {
+                document.body.removeAttribute('data-theme'); // Light is default via :root
+            } else {
+                document.body.setAttribute('data-theme', theme);
+            }
         }
 
         function selectLanguage(lang) {
@@ -647,7 +714,7 @@
             if (savedTheme) {
                 setTheme(savedTheme);
             } else {
-                setTheme('dark'); // Default
+                setTheme('light'); // Default
             }
 
             // Check Language
