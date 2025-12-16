@@ -1,0 +1,1 @@
+// File deliberately emptied. Switched to pure HTML/CSS structure.

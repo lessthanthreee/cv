@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alfarabi Syeit | Technical Profile</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['Inter', 'sans-serif'],
+              mono: ['JetBrains Mono', 'monospace'],
+            },
+            colors: {
+              // Using CSS variables for dynamic theming
+              primary: 'var(--color-primary)', 
+              secondary: 'var(--color-secondary)',
+              dark: 'var(--color-bg)',
+              card: 'var(--color-card)',
+              'card-hover': 'var(--color-card-hover)',
+              text: 'var(--color-text)',
+              'text-muted': 'var(--color-text-muted)',
+            }
+          }
+        }
+      }
+    </script>
+    <style>
+      :root {
+        /* Default Dark Theme */
+        --color-bg: #0f172a;
+        --color-card: #1e293b;
+        --color-card-hover: #2d3b4e;
+        --color-text: #e2e8f0;
+        --color-text-muted: #94a3b8;
+        --color-primary: #10b981; /* Emerald 500 */
+        --color-border: #334155;
+      }
+
+      /* Light / Bright Theme */
+      [data-theme="light"] {
+        --color-bg: #f8fafc;
+        --color-card: #ffffff;
+        --color-card-hover: #f1f5f9;
+        --color-text: #0f172a;
+        --color-text-muted: #64748b;
+        --color-primary: #059669; /* Emerald 600 */
+        --color-border: #e2e8f0;
+      }
+
+      /* Colorful Theme (Purple/Pink) */
+      [data-theme="colorful"] {
+        --color-bg: #2e1065; /* Violet 950 */
+        --color-card: #4c1d95; /* Violet 900 */
+        --color-card-hover: #5b21b6; /* Violet 800 */
+        --color-text: #e9d5ff; /* Violet 200 */
+        --color-text-muted: #a78bfa; /* Violet 400 */
+        --color-primary: #f472b6; /* Pink 400 */
+        --color-border: #6d28d9;
+      }
+
+      body {
+        background-color: var(--color-bg);
+        color: var(--color-text);
+        line-height: 1.6;
+        transition: background-color 0.3s ease, color 0.3s ease;
+      }
+
+      .bg-card { background-color: var(--color-card); }
+      .border-theme { border-color: var(--color-border); }
+      
+      /* Utilities */
+      .section-title {
+        font-family: 'JetBrains Mono', monospace;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        border-bottom: 2px solid var(--color-border);
+        padding-bottom: 0.5rem;
+        margin-bottom: 1.5rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+      .section-title::before {
+        content: '#';
+        color: var(--color-primary);
+      }
+      
+      .skill-card {
+        transition: all 0.2s ease-in-out;
+        border: 1px solid var(--color-border);
+      }
+      .skill-card:hover {
+        transform: translateY(-2px);
+        background-color: var(--color-card-hover);
+        border-color: var(--color-primary);
+      }
+      
+      .pill {
+        display: inline-block;
+        padding: 0.1rem 0.4rem;
+        border-radius: 4px;
+        font-size: 0.75rem;
+        font-family: 'JetBrains Mono', monospace;
+        background-color: rgba(var(--color-primary), 0.1); 
+        color: var(--color-primary);
+        border: 1px solid var(--color-border);
+        margin-right: 0.25rem;
+        margin-bottom: 0.25rem;
+        opacity: 0.9;
+      }
+      
+      /* Specific override for pill background opacity hack with CSS vars */
+      [data-theme="light"] .pill {
+         background-color: #d1fae5;
+         border-color: #a7f3d0;
+      }
+
+      /* Modal */
+      .modal-backdrop {
+        background-color: rgba(15, 23, 42, 0.9);
+        backdrop-filter: blur(8px);
+      }
+      [data-theme="light"] .modal-backdrop {
+        background-color: rgba(248, 250, 252, 0.9);
+      }
+
+      /* Scrollbar */
+      ::-webkit-scrollbar { width: 8px; }
+      ::-webkit-scrollbar-track { background: var(--color-bg); }
+      ::-webkit-scrollbar-thumb { background: var(--color-border); border-radius: 4px; }
+      ::-webkit-scrollbar-thumb:hover { background: var(--color-text-muted); }
+    </style>
+</head>
+<body class="min-h-screen p-4 md:p-8 lg:p-12 max-w-6xl mx-auto selection:bg-primary selection:text-dark">
+
+    <!-- Language Selection Modal (shown if no preference saved) -->
+    <div id="lang-modal" class="fixed inset-0 z-[100] modal-backdrop flex items-center justify-center hidden">
+        <div class="bg-card p-8 rounded-xl border-2 border-primary max-w-md w-full text-center shadow-2xl animate-bounce-in">
+            <h2 class="text-2xl font-bold mb-6 font-mono">Select Language / Til Tańdańyz</h2>
+            <div class="grid gap-4">
+                <button onclick="selectLanguage('en')" class="p-4 rounded-lg border border-theme hover:border-primary hover:bg-card-hover transition-all font-bold">
+                    English 🇺🇸
+                </button>
+                <button onclick="selectLanguage('kz')" class="p-4 rounded-lg border border-theme hover:border-primary hover:bg-card-hover transition-all font-bold">
+                    Қазақша 🇰🇿
+                </button>
+                <button onclick="selectLanguage('ru')" class="p-4 rounded-lg border border-theme hover:border-primary hover:bg-card-hover transition-all font-bold">
+                    Русский 🇷🇺
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Top Controls -->
+    <div class="absolute top-4 right-4 md:fixed md:top-8 md:right-8 flex flex-col items-end gap-3 z-40">
+        <!-- Language Switcher -->
+        <div class="flex bg-card border border-theme rounded-lg overflow-hidden text-xs font-mono shadow-lg">
+            <button onclick="setLanguage('en')" class="px-3 py-1 hover:bg-card-hover hover:text-primary transition-colors border-r border-theme">EN</button>
+            <button onclick="setLanguage('kz')" class="px-3 py-1 hover:bg-card-hover hover:text-primary transition-colors border-r border-theme">KZ</button>
+            <button onclick="setLanguage('ru')" class="px-3 py-1 hover:bg-card-hover hover:text-primary transition-colors">RU</button>
+        </div>
+        <!-- Theme Switcher -->
+        <div class="flex bg-card border border-theme rounded-lg overflow-hidden text-xs font-mono shadow-lg">
+            <button onclick="setTheme('dark')" class="px-3 py-1 hover:bg-card-hover hover:text-primary transition-colors border-r border-theme" title="Dark Mode">🌑</button>
+            <button onclick="setTheme('light')" class="px-3 py-1 hover:bg-card-hover hover:text-primary transition-colors border-r border-theme" title="Light Mode">☀️</button>
+            <button onclick="setTheme('colorful')" class="px-3 py-1 hover:bg-card-hover hover:text-primary transition-colors" title="Colorful">🎨</button>
+        </div>
+    </div>
+
+    <!-- Top Border Accent -->
+    <div class="fixed top-0 left-0 w-full h-1 bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-500 z-50"></div>
+
+    <header class="mb-16 mt-8 animate-fade-in">
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-6 border-l-4 border-primary pl-6">
+            <div>
+                <h1 class="text-4xl md:text-6xl font-black tracking-tight mb-2" data-key="name">
+                    ALFARABI SYEIT
+                </h1>
+                <p class="text-xl md:text-2xl text-primary font-light tracking-wide" data-key="role">
+                    Technical Developer & Analyst
+                </p>
+            </div>
+            <div class="text-text-muted font-mono text-sm space-y-1">
+                <div class="flex items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-primary"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+                    <span data-key="loc_astana">Astana, Kazakhstan</span>
+                </div>
+                <div class="flex items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-primary"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+                    <a href="mailto:el.faraabi@outlook.com" class="hover:text-primary transition-colors">el.faraabi@outlook.com</a>
+                </div>
+                <div class="flex items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-primary"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                    <span>+7 776 058 58 34</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-8 bg-card p-6 rounded-lg border border-theme text-text shadow-lg">
+            <p data-key="summary">
+                Multidisciplinary technical professional with a strong background in data, analytics, IT systems, automation, and software development. 
+                Adaptable, reliable, and capable of independent execution or acting as a trusted technical assistant.
+            </p>
+        </div>
+        
+        <!-- Languages Bar -->
+        <div class="mt-6 flex flex-wrap gap-3 font-mono text-sm">
+            <span class="bg-card text-text px-3 py-1 rounded border border-theme">English <span class="text-primary" data-key="lang_fluent">Fluent</span></span>
+            <span class="bg-card text-text px-3 py-1 rounded border border-theme">Kazakh <span class="text-primary" data-key="lang_native">Native</span></span>
+            <span class="bg-card text-text px-3 py-1 rounded border border-theme">Turkish <span class="text-primary" data-key="lang_fluent">Fluent</span></span>
+            <span class="bg-card text-text px-3 py-1 rounded border border-theme">Mongolian <span class="text-primary" data-key="lang_fluent">Fluent</span></span>
+            <span class="bg-card text-text px-3 py-1 rounded border border-theme">Russian <span class="text-text-muted" data-key="lang_intermediate">Intermediate</span></span>
+        </div>
+    </header>
+
+    <main class="grid grid-cols-1 lg:grid-cols-12 gap-12">
+        
+        <!-- Left Sidebar: Experience & Education -->
+        <div class="lg:col-span-4 space-y-12">
+            
+            <section>
+                <h2 class="section-title text-xl font-bold" data-key="experience_title">Experience</h2>
+                <div class="space-y-8">
+                    <div class="relative pl-6 border-l border-theme">
+                        <div class="absolute -left-[5px] top-1.5 w-2.5 h-2.5 rounded-full bg-primary box-shadow-glow"></div>
+                        <h3 class="text-text font-bold text-lg" data-key="job1_role">Freelance Technical Developer</h3>
+                        <div class="text-primary font-mono text-xs mb-2">2020 – Present</div>
+                        <p class="text-sm text-text-muted mb-2" data-key="exp_remote">Self-Employed • Remote</p>
+                        <ul class="list-disc list-inside text-sm text-text space-y-1 marker:text-text-muted" data-key="job1_desc">
+                            <li>Web apps, internal tools & automation</li>
+                            <li>Analytics support & reporting</li>
+                            <li>Full project lifecycle management</li>
+                        </ul>
+                    </div>
+
+                    <div class="relative pl-6 border-l border-theme">
+                        <div class="absolute -left-[5px] top-1.5 w-2.5 h-2.5 rounded-full bg-secondary"></div>
+                        <h3 class="text-text font-bold text-lg" data-key="job2_role">Marketing & Compliance</h3>
+                        <div class="text-primary font-mono text-xs mb-2" data-key="exp_contract">Contract</div>
+                        <p class="text-sm text-text-muted mb-2" data-key="exp_central_asia">StrongNode • Central Asia</p>
+                        <ul class="list-disc list-inside text-sm text-text space-y-1 marker:text-text-muted" data-key="job2_desc">
+                            <li>Documentation & Reporting</li>
+                            <li>Compliance support operations</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <section>
+                <h2 class="section-title text-xl font-bold" data-key="education_title">Education</h2>
+                <div class="space-y-6">
+                    <div>
+                        <h3 class="text-text font-bold" data-key="edu1_degree">M.Sc. Automation & ML</h3>
+                        <p class="text-sm text-text-muted" data-key="edu_uni">Yildiz Technical University</p>
+                        <div class="text-xs font-mono text-primary mt-1">2020</div>
+                    </div>
+                    <div>
+                        <h3 class="text-text font-bold" data-key="edu2_degree">B.Sc. Automation & Control</h3>
+                        <p class="text-sm text-text-muted" data-key="edu_uni">Yildiz Technical University</p>
+                        <div class="text-xs font-mono text-primary mt-1">2018</div>
+                    </div>
+                </div>
+            </section>
+
+            <section>
+                <h2 class="section-title text-xl font-bold" data-key="qualities_title">Qualities</h2>
+                <div class="grid grid-cols-2 gap-2">
+                    <div class="text-center bg-card p-2 rounded text-sm text-primary border border-theme" data-key="quality1">Adaptable</div>
+                    <div class="text-center bg-card p-2 rounded text-sm text-primary border border-theme" data-key="quality2">Analytical</div>
+                    <div class="text-center bg-card p-2 rounded text-sm text-primary border border-theme" data-key="quality3">Reliable</div>
+                    <div class="text-center bg-card p-2 rounded text-sm text-primary border border-theme" data-key="quality4">Professional</div>
+                </div>
+            </section>
+
+        </div>
+
+        <!-- Right Content: Skills Grid -->
+        <div class="lg:col-span-8">
+            <h2 class="section-title text-xl font-bold mb-8" data-key="tech_title">Technical Arsenal</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+                <!-- Programming -->
+                <div class="skill-card bg-card p-5 rounded-xl">
+                    <div class="flex items-center gap-2 mb-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-primary"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+                        <h3 class="text-text font-bold" data-key="cat_programming">Programming</h3>
+                    </div>
+                    <div class="space-y-3">
+                        <div>
+                            <div class="flex justify-between text-sm mb-1"><span class="text-text">Rust</span> <span class="text-text-muted text-xs" data-key="prog_rust_desc">Solid / CLI / Async</span></div>
+                            <div class="h-1 bg-secondary/30 rounded-full"><div class="h-1 bg-primary rounded-full" style="width: 85%"></div></div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between text-sm mb-1"><span class="text-text">Python</span> <span class="text-text-muted text-xs" data-key="prog_python_desc">Automation / Data / LLM</span></div>
+                            <div class="h-1 bg-secondary/30 rounded-full"><div class="h-1 bg-primary rounded-full" style="width: 90%"></div></div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between text-sm mb-1"><span class="text-text">JavaScript / Node</span> <span class="text-text-muted text-xs" data-key="prog_js_desc">Fullstack / Async</span></div>
+                            <div class="h-1 bg-secondary/30 rounded-full"><div class="h-1 bg-primary rounded-full" style="width: 80%"></div></div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between text-sm mb-1"><span class="text-text">SQL</span> <span class="text-text-muted text-xs" data-key="prog_sql_desc">Queries / Joins / Filtering</span></div>
+                            <div class="h-1 bg-secondary/30 rounded-full"><div class="h-1 bg-primary rounded-full" style="width: 70%"></div></div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between text-sm mb-1"><span class="text-text">C++ / C</span> <span class="text-text-muted text-xs" data-key="prog_cpp_desc">Algorithm / Low-level</span></div>
+                            <div class="h-1 bg-secondary/30 rounded-full"><div class="h-1 bg-primary rounded-full" style="width: 50%"></div></div>
+                        </div>
+                        <div class="pt-2 flex flex-wrap">
+                            <span class="pill">Java</span>
+                            <span class="pill">C#</span>
+                            <span class="pill">OOP</span>
+                            <span class="pill">Cross-language</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Web & App -->
+                <div class="skill-card bg-card p-5 rounded-xl">
+                    <div class="flex items-center gap-2 mb-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-primary"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><line x1="3" x2="21" y1="9" y2="9"/><line x1="9" x2="9" y1="21" y2="9"/></svg>
+                        <h3 class="text-text font-bold" data-key="cat_web">Web & App Dev</h3>
+                    </div>
+                    <ul class="text-sm text-text-muted space-y-2">
+                        <li><strong class="text-text" data-key="web_front">Frontend:</strong> <span data-key="web_front_desc">HTML, CSS (Advanced), Tailwind, PWAs</span></li>
+                        <li><strong class="text-text" data-key="web_back">Backend:</strong> <span data-key="web_back_desc">Node.js, REST APIs, Auth flows</span></li>
+                        <li><strong class="text-text" data-key="web_deploy">Deploy:</strong> <span data-key="web_deploy_desc">DNS, Performance Opt, Integration</span></li>
+                    </ul>
+                </div>
+
+                <!-- Data -->
+                <div class="skill-card bg-card p-5 rounded-xl">
+                    <div class="flex items-center gap-2 mb-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-primary"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg>
+                        <h3 class="text-text font-bold" data-key="cat_data">Data & Analytics</h3>
+                    </div>
+                    <ul class="text-sm text-text-muted space-y-2">
+                        <li><strong class="text-text" data-key="data_excel">Excel (Adv):</strong> <span data-key="data_excel_desc">Dashboards, Pivot Tables</span></li>
+                        <li><strong class="text-text" data-key="data_proc">Processing:</strong> <span data-key="data_proc_desc">Cleaning, Validation, Visualization</span></li>
+                        <li><strong class="text-text" data-key="data_strat">Strategy:</strong> <span data-key="data_strat_desc">Actionable insights from messy data</span></li>
+                    </ul>
+                </div>
+
+                <!-- Systems -->
+                <div class="skill-card bg-card p-5 rounded-xl">
+                    <div class="flex items-center gap-2 mb-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-primary"><rect x="2" y="2" width="20" height="8" rx="2" ry="2"/><rect x="2" y="14" width="20" height="8" rx="2" ry="2"/><line x1="6" x2="6.01" y1="6" y2="6"/><line x1="6" x2="6.01" y1="18" y2="18"/></svg>
+                        <h3 class="text-text font-bold" data-key="cat_systems">Systems & IT</h3>
+                    </div>
+                    <div class="text-sm text-text-muted space-y-2">
+                        <p data-key="systems_desc">Comfortable on <span class="text-text">Windows, macOS, Linux</span></p>
+                        <div class="flex flex-wrap gap-1 mt-2">
+                            <span class="pill">Docker</span>
+                            <span class="pill">K8s</span>
+                            <span class="pill">VMs</span>
+                            <span class="pill">SSH</span>
+                            <span class="pill">Bash</span>
+                            <span class="pill">Env Config</span>
+                        </div>
+                        <p class="text-xs mt-2" data-key="systems_sub">Troubleshooting logs, debugging, performance tuning.</p>
+                    </div>
+                </div>
+
+                <!-- Automation -->
+                <div class="skill-card bg-card p-5 rounded-xl">
+                    <div class="flex items-center gap-2 mb-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-primary"><path d="M12 20a8 8 0 1 0 0-16 8 8 0 0 0 0 16Z"/><path d="M12 14a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z"/><path d="M12 2v2"/><path d="M12 22v-2"/><path d="m17 20.66-1-1.73"/><path d="M11 10.27 7 3.34"/><path d="m20.66 17-1.73-1"/><path d="m3.34 7 1.73 1"/><path d="M14 12h8"/><path d="M2 12h2"/><path d="m20.66 7-1.73 1"/><path d="m3.34 17 1.73-1"/><path d="m17 3.34-1 1.73"/><path d="m11 13.73-4 6.93"/></svg>
+                        <h3 class="text-text font-bold" data-key="cat_auto">Automation</h3>
+                    </div>
+                    <ul class="text-sm text-text-muted space-y-1">
+                        <li data-key="auto_li1">• Control Systems & PLC Logic</li>
+                        <li data-key="auto_li2">• Cron jobs & Script schedulers</li>
+                        <li data-key="auto_li3">• Workflow optimization</li>
+                    </ul>
+                </div>
+
+                <!-- AI Tools -->
+                <div class="skill-card bg-card p-5 rounded-xl">
+                    <div class="flex items-center gap-2 mb-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-primary"><path d="M12 2a3 3 0 0 1 3 3v7a3 3 0 0 1-3 3"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" x2="12" y1="19" y2="22"/><line x1="8" x2="16" y1="22" y2="22"/></svg>
+                        <h3 class="text-text font-bold" data-key="cat_ai">AI / Modern Tools</h3>
+                    </div>
+                    <ul class="text-sm text-text-muted space-y-1">
+                        <li data-key="ai_li1">• Advanced LLM usage for coding</li>
+                        <li data-key="ai_li2">• API Integration & Verification</li>
+                        <li data-key="ai_li3">• ML Concepts & Limits</li>
+                    </ul>
+                </div>
+                
+                <!-- Dev Practices -->
+                <div class="skill-card bg-card p-5 rounded-xl md:col-span-2">
+                    <div class="flex items-center gap-2 mb-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-primary"><path d="m18 16 4-4-4-4"/><path d="m6 8-4 4 4 4"/><line x1="14.5" x2="9.5" y1="4" y2="20"/></svg>
+                        <h3 class="text-text font-bold" data-key="cat_general">Dev Practices & General</h3>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-text">
+                        <div>
+                            <strong class="text-primary" data-key="gen_flow">Workflow:</strong>
+                            <p class="text-text-muted mt-1" data-key="gen_flow_desc">Git (Branching/Merging), Rapid Prototyping, Refactoring, Documentation (README, SOPs)</p>
+                        </div>
+                        <div>
+                            <strong class="text-primary" data-key="gen_cap">Capabilities:</strong>
+                            <p class="text-text-muted mt-1" data-key="gen_cap_desc">Highly adaptable, Trusted technical assistant, Troubleshooting broken systems, Learning on the job.</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <footer class="mt-20 border-t border-theme pt-8 text-center text-text-muted text-sm font-mono">
+        <p>&copy; 2025 Alfarabi Syeit. <span data-key="footer">All systems nominal.</span></p>
+    </footer>
+
+    <script>
+        // --- Translations ---
+        const i18n = {
+            en: {
+                name: "ALFARABI SYEIT",
+                role: "Technical Developer & Analyst",
+                loc_astana: "Astana, Kazakhstan",
+                lang_fluent: "Fluent",
+                lang_native: "Native",
+                lang_intermediate: "Intermediate",
+                summary: "Multidisciplinary technical professional with a strong background in data, analytics, IT systems, automation, and software development. Adaptable, reliable, and capable of independent execution or acting as a trusted technical assistant.",
+                experience_title: "Experience",
+                job1_role: "Freelance Technical Developer",
+                job1_desc: "<li>Web apps, internal tools & automation</li><li>Analytics support & reporting</li><li>Full project lifecycle management</li>",
+                exp_remote: "Self-Employed • Remote",
+                job2_role: "Marketing & Compliance",
+                exp_contract: "Contract",
+                exp_central_asia: "StrongNode • Central Asia",
+                job2_desc: "<li>Documentation & Reporting</li><li>Compliance support operations</li>",
+                education_title: "Education",
+                edu1_degree: "M.Sc. Automation & ML",
+                edu2_degree: "B.Sc. Automation & Control",
+                edu_uni: "Yildiz Technical University",
+                qualities_title: "Qualities",
+                quality1: "Adaptable",
+                quality2: "Analytical",
+                quality3: "Reliable",
+                quality4: "Professional",
+                tech_title: "Technical Arsenal",
+                cat_programming: "Programming",
+                prog_rust_desc: "Solid / CLI / Async",
+                prog_python_desc: "Automation / Data / LLM",
+                prog_js_desc: "Fullstack / Async",
+                prog_sql_desc: "Queries / Joins / Filtering",
+                prog_cpp_desc: "Algorithm / Low-level",
+                cat_web: "Web & App Dev",
+                web_front: "Frontend:",
+                web_front_desc: "HTML, CSS (Advanced), Tailwind, PWAs",
+                web_back: "Backend:",
+                web_back_desc: "Node.js, REST APIs, Auth flows",
+                web_deploy: "Deploy:",
+                web_deploy_desc: "DNS, Performance Opt, Integration",
+                cat_data: "Data & Analytics",
+                data_excel: "Excel (Adv):",
+                data_excel_desc: "Dashboards, Pivot Tables",
+                data_proc: "Processing:",
+                data_proc_desc: "Cleaning, Validation, Visualization",
+                data_strat: "Strategy:",
+                data_strat_desc: "Actionable insights from messy data",
+                cat_systems: "Systems & IT",
+                systems_desc: "Comfortable on <span class=\"text-text\">Windows, macOS, Linux</span>",
+                systems_sub: "Troubleshooting logs, debugging, performance tuning.",
+                cat_auto: "Automation",
+                auto_li1: "• Control Systems & PLC Logic",
+                auto_li2: "• Cron jobs & Script schedulers",
+                auto_li3: "• Workflow optimization",
+                cat_ai: "AI / Modern Tools",
+                ai_li1: "• Advanced LLM usage for coding",
+                ai_li2: "• API Integration & Verification",
+                ai_li3: "• ML Concepts & Limits",
+                cat_general: "Dev Practices & General",
+                gen_flow: "Workflow:",
+                gen_flow_desc: "Git (Branching/Merging), Rapid Prototyping, Refactoring, Documentation (README, SOPs)",
+                gen_cap: "Capabilities:",
+                gen_cap_desc: "Highly adaptable, Trusted technical assistant, Troubleshooting broken systems, Learning on the job.",
+                footer: "All systems nominal."
+            },
+            kz: {
+                name: "ӘЛЬ-ФАРАБИ СЕЙТ",
+                role: "Техникалық Әзірлеуші және Аналитик",
+                loc_astana: "Астана, Қазақстан",
+                lang_fluent: "Еркін",
+                lang_native: "Ана тілі",
+                lang_intermediate: "Орташа",
+                summary: "Деректер, аналитика, IT жүйелері, автоматтандыру және бағдарламалық қамтамасыз ету салаларында күшті білімі бар көпсалалы техникалық маман. Икемді, сенімді және тәуелсіз жұмыс істеуге немесе техникалық көмекші ретінде әрекет етуге қабілетті.",
+                experience_title: "Тәжірибе",
+                job1_role: "Фриланс Техникалық Әзірлеуші",
+                job1_desc: "<li>Web қолданбалар, ішкі құралдар және автоматтандыру</li><li>Аналитикалық қолдау және есеп беру</li><li>Жобаның толық өмірлік циклін басқару</li>",
+                exp_remote: "Өз бетінше жұмыс • Қашықтан",
+                job2_role: "Маркетинг және Сәйкестік",
+                exp_contract: "Келісімшарт",
+                exp_central_asia: "StrongNode • Орталық Азия",
+                job2_desc: "<li>Құжаттама және Есеп беру</li><li>Сәйкестік және операциялық қолдау</li>",
+                education_title: "Білім",
+                edu1_degree: "M.Sc. Автоматтандыру және ML",
+                edu2_degree: "B.Sc. Автоматтандыру және Басқару",
+                edu_uni: "Йылдыз Техникалық Университеті",
+                qualities_title: "Қасиеттер",
+                quality1: "Икемді",
+                quality2: "Аналитикалық",
+                quality3: "Сенімді",
+                quality4: "Кәсіби",
+                tech_title: "Техникалық Арсенал",
+                cat_programming: "Бағдарламалау",
+                prog_rust_desc: "Сенімді / CLI / Async",
+                prog_python_desc: "Автоматтандыру / Деректер / LLM",
+                prog_js_desc: "Fullstack / Async",
+                prog_sql_desc: "Сұраныстар / Joins / Фильтрлеу",
+                prog_cpp_desc: "Алгоритмдер / Төменгі деңгей",
+                cat_web: "Web және Қолданбалар",
+                web_front: "Frontend:",
+                web_front_desc: "HTML, CSS (Advanced), Tailwind, PWAs",
+                web_back: "Backend:",
+                web_back_desc: "Node.js, REST API, Auth ағындары",
+                web_deploy: "Орналастыру:",
+                web_deploy_desc: "DNS, Өнімділікті оңтайландыру, Интеграция",
+                cat_data: "Деректер және Аналитика",
+                data_excel: "Excel (Adv):",
+                data_excel_desc: "Дашбордтар, Жиынтық кестелер",
+                data_proc: "Өңдеу:",
+                data_proc_desc: "Тазалау, Валидация, Визуализация",
+                data_strat: "Стратегия:",
+                data_strat_desc: "Күрделі деректерден нақты шешімдер",
+                cat_systems: "Жүйелер және IT",
+                systems_desc: "<span class=\"text-text\">Windows, macOS, Linux</span> жүйелерінде еркін жұмыс істейді",
+                systems_sub: "Журналдарды ақаулықтарды іздеу, жөндеу, өнімділікті баптау.",
+                cat_auto: "Автоматтандыру",
+                auto_li1: "• Басқару жүйелері & PLC логикасы",
+                auto_li2: "• Cron тапсырмалары & Скрипт жоспарлаушылары",
+                auto_li3: "• Жұмыс процесін оңтайландыру",
+                cat_ai: "AI / Заманауи Құралдар",
+                ai_li1: "• Кодтау үшін LLM-ді терең қолдану",
+                ai_li2: "• API интеграциясы & Тексеру",
+                ai_li3: "• ML тұжырымдамалары & Шектеулері",
+                cat_general: "Даму Тәжірибелері",
+                gen_flow: "Жұмыс процесі:",
+                gen_flow_desc: "Git (Тармақтау/Біріктіру), Жылдам прототиптеу, Рефакторинг, Құжаттама (README, SOPs)",
+                gen_cap: "Қабілеттер:",
+                gen_cap_desc: "Икемді, Сенімді техникалық көмекші, Бұзылған жүйелерді жөндеу, Жұмыс барысында үйрену.",
+                footer: "Барлық жүйелер қалыпты."
+            },
+            ru: {
+                name: "АЛФАРАБИ СЕЙТ",
+                role: "Технический Разработчик и Аналитик",
+                loc_astana: "Астана, Казахстан",
+                lang_fluent: "Свободно",
+                lang_native: "Родной",
+                lang_intermediate: "Средний",
+                summary: "Многопрофильный технический специалист с сильным опытом в области данных, аналитики, IT-систем, автоматизации и разработки ПО. Адаптируемый, надежный и способный к самостоятельному выполнению задач или роли доверенного технического ассистента.",
+                experience_title: "Опыт",
+                job1_role: "Фриланс Технический Разработчик",
+                job1_desc: "<li>Веб-приложения, внутренние инструменты и автоматизация</li><li>Аналитическая поддержка и отчетность</li><li>Управление полным жизненным циклом проекта</li>",
+                exp_remote: "Самозанятый • Удаленно",
+                job2_role: "Маркетинг и Комплаенс",
+                exp_contract: "Контракт",
+                exp_central_asia: "StrongNode • Центральная Азия",
+                job2_desc: "<li>Документация и отчетность</li><li>Поддержка операций по соблюдению требований</li>",
+                education_title: "Образование",
+                edu1_degree: "M.Sc. Автоматизация и ML",
+                edu2_degree: "B.Sc. Автоматизация и Управление",
+                edu_uni: "Технический Университет Йылдыз",
+                qualities_title: "Качества",
+                quality1: "Адаптивный",
+                quality2: "Аналитичный",
+                quality3: "Надежный",
+                quality4: "Профессионал",
+                tech_title: "Технический Арсенал",
+                cat_programming: "Программирование",
+                prog_rust_desc: "Уверенно / CLI / Async",
+                prog_python_desc: "Автоматизация / Данные / LLM",
+                prog_js_desc: "Fullstack / Async",
+                prog_sql_desc: "Запросы / Joins / Фильтрация",
+                prog_cpp_desc: "Алгоритмы / Низкий уровень",
+                cat_web: "Веб и Приложения",
+                web_front: "Frontend:",
+                web_front_desc: "HTML, CSS (Продвинутый), Tailwind, PWA",
+                web_back: "Backend:",
+                web_back_desc: "Node.js, REST API, Авторизация",
+                web_deploy: "Деплой:",
+                web_deploy_desc: "DNS, Оптимизация, Интеграция",
+                cat_data: "Данные и Аналитика",
+                data_excel: "Excel (Adv):",
+                data_excel_desc: "Дашборды, Сводные таблицы",
+                data_proc: "Обработка:",
+                data_proc_desc: "Очистка, Валидация, Визуализация",
+                data_strat: "Стратегия:",
+                data_strat_desc: "Инсайты из неструктурированных данных",
+                cat_systems: "Системы и IT",
+                systems_desc: "Уверенный пользователь <span class=\"text-text\">Windows, macOS, Linux</span>",
+                systems_sub: "Анализ логов, отладка, настройка производительности.",
+                cat_auto: "Автоматизация",
+                auto_li1: "• Системы управления & Логика PLC",
+                auto_li2: "• Cron задачи & Планировщики скриптов",
+                auto_li3: "• Оптимизация рабочих процессов",
+                cat_ai: "AI / Современные Инструменты",
+                ai_li1: "• Продвинутое использование LLM для кода",
+                ai_li2: "• Интеграция API & Верификация",
+                ai_li3: "• Концепции ML & Ограничения",
+                cat_general: "Практики Разработки",
+                gen_flow: "Рабочий процесс:",
+                gen_flow_desc: "Git (Ветвление/Слияние), Быстрое прототипирование, Рефакторинг, Документация (README, SOPs)",
+                gen_cap: "Возможности:",
+                gen_cap_desc: "Высокая адаптивность, Надежный тех. ассистент, Отладка сломанных систем, Обучение на ходу.",
+                footer: "Все системы в норме."
+            }
+        };
+
+        // --- Logic ---
+        function setLanguage(lang) {
+            localStorage.setItem('preferred_language', lang);
+            
+            // Update DOM text
+            document.querySelectorAll('[data-key]').forEach(el => {
+                const key = el.getAttribute('data-key');
+                if (i18n[lang] && i18n[lang][key]) {
+                    el.innerHTML = i18n[lang][key];
+                }
+            });
+        }
+
+        function setTheme(theme) {
+            localStorage.setItem('preferred_theme', theme);
+            document.body.setAttribute('data-theme', theme);
+        }
+
+        function selectLanguage(lang) {
+            setLanguage(lang);
+            document.getElementById('lang-modal').classList.add('hidden');
+        }
+
+        // --- Init ---
+        (function() {
+            // Check Theme
+            const savedTheme = localStorage.getItem('preferred_theme');
+            if (savedTheme) {
+                setTheme(savedTheme);
+            } else {
+                setTheme('dark'); // Default
+            }
+
+            // Check Language
+            const savedLang = localStorage.getItem('preferred_language');
+            if (savedLang) {
+                setLanguage(savedLang);
+            } else {
+                // Show Modal if no language selected
+                document.getElementById('lang-modal').classList.remove('hidden');
+            }
+        })();
+    </script>
+
+</body>
+</html>
